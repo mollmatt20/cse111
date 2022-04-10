@@ -1,0 +1,47 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@# @;
+
+
+1.2
+date	2022.03.21.20.33.14;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2021.08.12.04.56.43;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@-
+@
+text
+@This is a test of data.
+Data of is this a test?
+Data of is this a test?
+Data of is this a test?
+what is this testing?
+what is this testing?
+$Id: data,v 1.2 2022-01-05 17:15:41-08 - - $
+@
+
+
+1.1
+log
+@-
+@
+text
+@d3 2
+d6 2
+a7 1
+$Id$
+@

@@ -1,0 +1,69 @@
+head	1.2;
+access;
+symbols;
+locks;
+comment	@ * @;
+
+
+1.2
+date	2022.03.27.19.31.06;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2022.03.22.22.44.42;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@-
+@
+text
+@// $Id: word_map.h,v 1.1 2022-03-22 15:44:42-07 - - $
+
+#ifndef WORD_MAP_H
+#define WORD_MAP_H
+
+#include <iostream>
+#include <map>
+using namespace std;
+
+class word_map {
+   private:
+      using map_type = map<string,size_t>;
+      map_type words;
+      string tolower (const string&);
+      void scan_line (const string&);
+   public:
+      using const_iterator = map_type::const_iterator;
+      void scan_file (istream&);
+      const_iterator begin() const { return words.cbegin(); }
+      const_iterator end() const { return words.cend(); }
+};
+
+#endif
+
+@
+
+
+1.1
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id$
+d19 2
+a20 4
+      template <typename function>
+      void iterate (function);
+      const_iterator begin() const;
+      const_iterator end() const;
+@

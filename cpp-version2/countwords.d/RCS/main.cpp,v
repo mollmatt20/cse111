@@ -1,0 +1,279 @@
+head	1.9;
+access;
+symbols;
+locks;
+comment	@// @;
+
+
+1.9
+date	2022.03.27.23.27.03;	author -;	state -;
+branches;
+next	1.8;
+
+1.8
+date	2022.03.22.22.26.41;	author -;	state -;
+branches;
+next	1.7;
+
+1.7
+date	2022.03.22.22.02.24;	author -;	state -;
+branches;
+next	1.6;
+
+1.6
+date	2022.03.22.21.49.21;	author -;	state -;
+branches;
+next	1.5;
+
+1.5
+date	2022.03.22.21.48.25;	author -;	state -;
+branches;
+next	1.4;
+
+1.4
+date	2022.03.22.21.48.11;	author -;	state -;
+branches;
+next	1.3;
+
+1.3
+date	2022.03.22.21.47.41;	author -;	state -;
+branches;
+next	1.2;
+
+1.2
+date	2022.03.22.21.46.48;	author -;	state -;
+branches;
+next	1.1;
+
+1.1
+date	2020.06.28.02.59.24;	author -;	state -;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.9
+log
+@-
+@
+text
+@// $Id: countwords.cpp,v 1.8 2022-03-22 15:26:41-07 - - $
+
+#include <cerrno>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+using namespace std;
+
+#include "word_map.h"
+
+struct {
+   string name;
+   int status = EXIT_SUCCESS;
+} exec;
+
+void read_file (const string& filename, word_map& words) {
+   if (filename == "-") words.scan_file (cin);
+   else {
+      ifstream infile (filename);
+      if (infile) words.scan_file (infile);
+      else {
+         exec.status = EXIT_FAILURE;
+         cerr << exec.name << ": " << filename << ": "
+              << strerror (errno) << endl;
+      }
+   }
+}
+
+int main (int argc, char** argv) {
+   exec.name = basename (argv[0]);
+   exec.status = EXIT_SUCCESS;
+   vector<string> filenames (&argv[1], &argv[argc]);
+
+   word_map words;
+   if (filenames.size() == 0) filenames.push_back ("-");
+   for (const auto& filename: filenames) read_file (filename, words);
+
+   for (const auto& pair: words) {
+      cout << pair.first << " " << pair.second << endl;
+   }
+   return exec.status;
+}
+
+@
+
+
+1.8
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.7 2022-03-22 15:02:24-07 - - $
+a7 1
+#include <regex>
+@
+
+
+1.7
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.6 2022-03-22 14:49:21-07 - - $
+a32 5
+template <typename pair_type>
+void print_words (const pair_type& pair) {
+   cout << pair.first << " " << pair.second << endl;
+}
+
+d42 3
+a44 1
+   words.iterate (print_words);
+@
+
+
+1.6
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.5 2022-03-22 14:48:25-07 - - $
+d33 5
+d47 1
+a47 3
+   for (const auto& word: words) {
+      cout << word.first << " " << word.second << endl;
+   }
+d50 1
+@
+
+
+1.5
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.4 2022-03-22 14:48:11-07 - - $
+d26 2
+a27 2
+         exec::status = EXIT_FAILURE;
+         cerr << exec::name << ": " << filename << ": "
+d34 2
+a35 2
+   exec::name = basename (argv[0]);
+   exec::status = EXIT_SUCCESS;
+d45 1
+a45 1
+   return exec::status;
+@
+
+
+1.4
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.3 2022-03-22 14:47:41-07 - - $
+d26 1
+a26 1
+         exec:status = EXIT_FAILURE;
+@
+
+
+1.3
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.2 2022-03-22 14:46:48-07 - - $
+d21 1
+a21 1
+   if (filename == "-") words.scan-file (cin);
+d24 1
+a24 1
+      if (infile) scan (infile);
+@
+
+
+1.2
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.1 2020-06-27 19:59:24-07 - - $
+d20 1
+a20 1
+read_file (const string& filename, word_map& words) {
+d35 1
+a35 1
+   exec:status = EXIT_SUCCESS;
+@
+
+
+1.1
+log
+@-
+@
+text
+@d1 1
+a1 1
+// $Id: countwords.cpp,v 1.1 2020-01-02 14:32:14-08 - - $
+d13 1
+a13 1
+using wordcount_type = map<string,size_t>;
+d15 14
+a28 10
+void scan (wordcount_type& words, istream& infile) {
+   static const regex word_rx {"[[:alpha:]]+"};
+   for (;;) {
+      string line;
+      getline (infile, line);
+      if (infile.eof()) break;
+      for (auto& chr: line) chr = tolower (chr);
+      auto itor = sregex_iterator (line.begin(), line.end(), word_rx);
+      for (; itor != sregex_iterator(); ++itor) {
+         ++words[itor->str()];
+d34 2
+a35 3
+   wordcount_type words;
+   string exec_name {basename (argv[0])};
+   int exit_status = EXIT_SUCCESS;
+d37 2
+d40 2
+a41 12
+   for (const auto& filename: filenames) {
+      if (filename == "-") scan (words, cin);
+      else {
+         ifstream infile (filename);
+         if (infile) scan (words, infile);
+         else {
+            exit_status = EXIT_FAILURE;
+            cerr << exec_name << ": " << filename << ": "
+                 << strerror (errno) << endl;
+         }
+      }
+   }
+d45 1
+a45 1
+   return exit_status;
+@
